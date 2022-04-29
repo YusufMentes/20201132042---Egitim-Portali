@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB01Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dersler">
+          <Key>
+            <PropertyRef Name="Dersid" />
+          </Key>
+          <Property Name="Dersid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DersAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Dersicerik" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DersDurum" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dKatid" Type="int" Nullable="false" />
+          <Property Name="dUyeid" Type="int" Nullable="false" />
+          <Property Name="dyuklenmetarihi" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Egitimler">
+          <Key>
+            <PropertyRef Name="Egitimid" />
+          </Key>
+          <Property Name="Egitimid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Egitimicerik" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="eUyeid" Type="int" Nullable="false" />
+          <Property Name="eDersid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Katid" />
+          </Key>
+          <Property Name="Katid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KatAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uyeler">
+          <Key>
+            <PropertyRef Name="Uyeid" />
+          </Key>
+          <Property Name="Uyeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UyeAdSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UyeYas" Type="int" Nullable="false" />
+          <Property Name="UyeMail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UyeTarih" Type="datetime" Nullable="false" />
+          <Property Name="UyeYetki" Type="int" Nullable="false" />
+          <Property Name="UyeParola" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Dersler_ToKategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Katid" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="dKatid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dersler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="Uyeid" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="dUyeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Egitimler_ToDersler">
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="1" />
+          <End Role="Egitimler" Type="Self.Egitimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="Dersid" />
+            </Principal>
+            <Dependent Role="Egitimler">
+              <PropertyRef Name="eDersid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Egitimler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Egitimler" Type="Self.Egitimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="Uyeid" />
+            </Principal>
+            <Dependent Role="Egitimler">
+              <PropertyRef Name="eUyeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01ModelStoreContainer">
+          <EntitySet Name="Dersler" EntityType="Self.Dersler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Egitimler" EntityType="Self.Egitimler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uyeler" EntityType="Self.Uyeler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dersler_ToKategoriler" Association="Self.FK_Dersler_ToKategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dersler_ToUyeler" Association="Self.FK_Dersler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Egitimler_ToDersler" Association="Self.FK_Egitimler_ToDersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="Egitimler" EntitySet="Egitimler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Egitimler_ToUyeler" Association="Self.FK_Egitimler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Egitimler" EntitySet="Egitimler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB01Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dersler">
+          <Key>
+            <PropertyRef Name="Dersid" />
+          </Key>
+          <Property Name="Dersid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DersAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dersicerik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DersDurum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dKatid" Type="Int32" Nullable="false" />
+          <Property Name="dUyeid" Type="Int32" Nullable="false" />
+          <Property Name="dyuklenmetarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Kategoriler" Relationship="Self.FK_Dersler_ToKategoriler" FromRole="Dersler" ToRole="Kategoriler" />
+          <NavigationProperty Name="Uyeler" Relationship="Self.FK_Dersler_ToUyeler" FromRole="Dersler" ToRole="Uyeler" />
+          <NavigationProperty Name="Egitimler" Relationship="Self.FK_Egitimler_ToDersler" FromRole="Dersler" ToRole="Egitimler" />
+        </EntityType>
+        <EntityType Name="Egitimler">
+          <Key>
+            <PropertyRef Name="Egitimid" />
+          </Key>
+          <Property Name="Egitimid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Egitimicerik" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="eUyeid" Type="Int32" Nullable="false" />
+          <Property Name="eDersid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Dersler" Relationship="Self.FK_Egitimler_ToDersler" FromRole="Egitimler" ToRole="Dersler" />
+          <NavigationProperty Name="Uyeler" Relationship="Self.FK_Egitimler_ToUyeler" FromRole="Egitimler" ToRole="Uyeler" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Katid" />
+          </Key>
+          <Property Name="Katid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KatAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dersler" Relationship="Self.FK_Dersler_ToKategoriler" FromRole="Kategoriler" ToRole="Dersler" />
+        </EntityType>
+        <EntityType Name="Uyeler">
+          <Key>
+            <PropertyRef Name="Uyeid" />
+          </Key>
+          <Property Name="Uyeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UyeAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeYas" Type="Int32" Nullable="false" />
+          <Property Name="UyeMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UyeYetki" Type="Int32" Nullable="false" />
+          <Property Name="UyeParola" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dersler" Relationship="Self.FK_Dersler_ToUyeler" FromRole="Uyeler" ToRole="Dersler" />
+          <NavigationProperty Name="Egitimler" Relationship="Self.FK_Egitimler_ToUyeler" FromRole="Uyeler" ToRole="Egitimler" />
+        </EntityType>
+        <Association Name="FK_Dersler_ToKategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Katid" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="dKatid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dersler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="Uyeid" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="dUyeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Egitimler_ToDersler">
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="1" />
+          <End Role="Egitimler" Type="Self.Egitimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="Dersid" />
+            </Principal>
+            <Dependent Role="Egitimler">
+              <PropertyRef Name="eDersid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Egitimler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Egitimler" Type="Self.Egitimler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="Uyeid" />
+            </Principal>
+            <Dependent Role="Egitimler">
+              <PropertyRef Name="eUyeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dersler" EntityType="Self.Dersler" />
+          <EntitySet Name="Egitimler" EntityType="Self.Egitimler" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" />
+          <EntitySet Name="Uyeler" EntityType="Self.Uyeler" />
+          <AssociationSet Name="FK_Dersler_ToKategoriler" Association="Self.FK_Dersler_ToKategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dersler_ToUyeler" Association="Self.FK_Dersler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Egitimler_ToDersler" Association="Self.FK_Egitimler_ToDersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="Egitimler" EntitySet="Egitimler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Egitimler_ToUyeler" Association="Self.FK_Egitimler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Egitimler" EntitySet="Egitimler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB01ModelStoreContainer" CdmEntityContainer="DB01Entities">
+          <EntitySetMapping Name="Dersler">
+            <EntityTypeMapping TypeName="DB01Model.Dersler">
+              <MappingFragment StoreEntitySet="Dersler">
+                <ScalarProperty Name="Dersid" ColumnName="Dersid" />
+                <ScalarProperty Name="DersAd" ColumnName="DersAd" />
+                <ScalarProperty Name="Dersicerik" ColumnName="Dersicerik" />
+                <ScalarProperty Name="DersDurum" ColumnName="DersDurum" />
+                <ScalarProperty Name="dKatid" ColumnName="dKatid" />
+                <ScalarProperty Name="dUyeid" ColumnName="dUyeid" />
+                <ScalarProperty Name="dyuklenmetarihi" ColumnName="dyuklenmetarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Egitimler">
+            <EntityTypeMapping TypeName="DB01Model.Egitimler">
+              <MappingFragment StoreEntitySet="Egitimler">
+                <ScalarProperty Name="Egitimid" ColumnName="Egitimid" />
+                <ScalarProperty Name="Egitimicerik" ColumnName="Egitimicerik" />
+                <ScalarProperty Name="eUyeid" ColumnName="eUyeid" />
+                <ScalarProperty Name="eDersid" ColumnName="eDersid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="DB01Model.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="Katid" ColumnName="Katid" />
+                <ScalarProperty Name="KatAd" ColumnName="KatAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uyeler">
+            <EntityTypeMapping TypeName="DB01Model.Uyeler">
+              <MappingFragment StoreEntitySet="Uyeler">
+                <ScalarProperty Name="Uyeid" ColumnName="Uyeid" />
+                <ScalarProperty Name="UyeAdSoyad" ColumnName="UyeAdSoyad" />
+                <ScalarProperty Name="UyeYas" ColumnName="UyeYas" />
+                <ScalarProperty Name="UyeMail" ColumnName="UyeMail" />
+                <ScalarProperty Name="UyeTarih" ColumnName="UyeTarih" />
+                <ScalarProperty Name="UyeYetki" ColumnName="UyeYetki" />
+                <ScalarProperty Name="UyeParola" ColumnName="UyeParola" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
